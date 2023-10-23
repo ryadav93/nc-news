@@ -13,3 +13,11 @@ export const getArticlesById = (article_id) => {
         return response.data.article
     })
 }
+
+export const getCommentsbyArticle = (article_id) => {
+    return newsApi.get(`/articles/${article_id}/comments`).then((response) => {
+        return response.data.comments
+    }).catch((err)=> {
+       
+    })
+}
