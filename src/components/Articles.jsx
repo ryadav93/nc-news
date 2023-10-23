@@ -6,14 +6,25 @@ import moment from "moment";
 
 const Articles = () => {
     const [articles, setArticles] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(false)
 
 
 useEffect(()=> {
-    getArticles().then((fetchedArticles)=> setArticles(fetchedArticles))
+    setLoading(true)
+    getArticles().then((fetchedArticles)=> {
+        setLoading(false)
+        setError(false)
+    setArticles(fetchedArticles)
+    }).catch(()=> {
+        setError(true)
+    })
 }, [])
 
 
-return (
+return error ? <h2>Oh no...something's gone wrong</h2> 
+    : loading ? (
+        <h2>Loading...</h2> ) : (
     <main className="articles">
         <h2>Articles</h2>
         <ul className="article-list">
