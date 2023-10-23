@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { getArticles } from "../utils/api"
 import { Link } from "react-router-dom"
+import moment from "moment";
 
 
 const Articles = () => {
@@ -20,13 +21,13 @@ return (
                return  <li className="article-card" key={article_id}>
                 <Link to={`/articles/${article_id}`}>
                     <h3>{title}</h3>
-                    <p>{author}</p>
-                    <p>{topic}</p>
+                    </Link>
+                    <p>User: {author}</p>
+                    <p>Topic: {topic}</p>
                     <img src={article_img_url} alt={`img of ${title}`} />
                     <p>Votes: {votes}</p>
-                    <p>Created:{created_at}</p>
-                    <p>Comment count:{comment_count}</p>
-                    </Link>
+                    <p>Date: {moment(created_at).utc().format('YYYY-MM-DD')}</p>
+                    <p>Comments:{comment_count}</p>
                 </li>
             })}
         </ul>
@@ -34,5 +35,5 @@ return (
 )
 
 }
-
+moment("2021-07-14T00:00:00.000Z").utc().format('YYYY-MM-DD')
 export default Articles

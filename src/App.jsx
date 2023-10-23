@@ -9,6 +9,7 @@ import Articles from './components/Articles'
 import ArticleById from './components/ArticleById'
 import './App.css'
 
+
 function App() {
  
 
@@ -20,11 +21,12 @@ function App() {
         <Route path='/' element={<Home/>}></Route>
         <Route path='/articles' element={<Articles/>}></Route>
         <Route path ='/articles/:article_id' element={<ArticleById/>}></Route>
+        <Route path = '/articles/:article_id/comments' element={<ArticleById/>}></Route>
         {/* <Route path='/topics' element={<Topics/>}></Route> */}
       </Routes>
       
       
-   
+
     </div>
   )
 }
