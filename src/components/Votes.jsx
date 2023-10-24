@@ -13,10 +13,10 @@ const Votes = ({ type, votes }) => {
     return (
         <div className="vote-btn">
             <p>{type}: {votes + userVotes} </p>
-            <button disabled={userVotes===1} onClick={()=> {
+            <button className="like-btn" disabled={userVotes===1} onClick={()=> {
                 updateVotes(1)
             }}>+</button>
-            <button disabled={userVotes===-1} onClick={()=> {
+            <button className="dislike-btn" disabled={userVotes===-1} onClick={()=> {
                 updateVotes(-1)
             }}>-</button>
         </div>
