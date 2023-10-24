@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { getArticles } from "../utils/api"
-import { Link } from "react-router-dom"
+import { Link, useParams, useSearchParams } from "react-router-dom"
 import moment from "moment";
 
 
@@ -8,18 +8,22 @@ const Articles = () => {
     const [articles, setArticles] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
+    const [searchParams] = useSearchParams()
+    const topic = searchParams.get('topic')
+    
+
 
 
 useEffect(()=> {
     setLoading(true)
-    getArticles().then((fetchedArticles)=> {
+    getArticles(topic).then((fetchedArticles)=> {
         setLoading(false)
         setError(false)
     setArticles(fetchedArticles)
     }).catch(()=> {
         setError(true)
     })
-}, [])
+}, [topic])
 
 
 return error ? <h2>Oh no...something's gone wrong</h2> 

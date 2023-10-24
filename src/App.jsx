@@ -22,7 +22,7 @@ function App() {
         <Route path='/articles' element={<Articles/>}></Route>
         <Route path ='/articles/:article_id' element={<ArticleById/>}></Route>
         <Route path = '/articles/:article_id/comments' element={<ArticleById/>}></Route>
-        {/* <Route path='/topics' element={<Topics/>}></Route> */}
+        <Route path='/topics' element={<Topics/>}></Route>
       </Routes>
       
       

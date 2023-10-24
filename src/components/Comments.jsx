@@ -8,7 +8,6 @@ const Comments = () => {
     const { article_id } = useParams()
     const [comments, setComments] = useState([])
     const [bodyInput, setBodyInput] = useState('')
-    const [votesInput, setVotesInput] = useState(0)
     const [authorInput, setAuthorInput] = useState('')
     const [error, setError] = useState(false)
     const [message, setMessage] = useState(null)
