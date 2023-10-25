@@ -1,11 +1,16 @@
 import { useState } from "react"
+import { patchVotes } from "../utils/api"
 
-const Votes = ({ type, votes }) => {
+const Votes = ({ type, votes, article_id }) => {
     const [userVotes, setUserVotes] = useState(0)
 
     const updateVotes = (value) => {
         setUserVotes((currentVotes) => {
             return currentVotes + value 
+        })
+        patchVotes(article_id, value).catch((err)=> {
+            console.log(err)
+            setUserVotes(0)
         })
         
     }

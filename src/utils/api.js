@@ -17,6 +17,14 @@ export const getArticlesById = (article_id) => {
     })
 }
 
+export const patchVotes = (article_id, value) => {
+    return newsApi.patch(`/articles/${article_id}`, { inc_votes: value }).then((response)=> {
+        return response.data.article
+    })
+    
+}
+
+
 export const getCommentsbyArticle = (article_id) => {
     return newsApi.get(`/articles/${article_id}/comments`).then((response) => {
         return response.data.comments

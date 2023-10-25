@@ -32,7 +32,7 @@ const ArticleById = () => {
             <p>{singleArticle.author}</p>
             <p>{singleArticle.topic}</p>
             <img src={singleArticle.article_img_url} alt={`img of ${singleArticle.title}`} />
-            <Votes type ={'Votes'} votes={singleArticle.votes}/>
+            <Votes type ={'Votes'} votes={singleArticle.votes} article_id={article_id}/>
             <p>Date: {moment(singleArticle.created_at).utc().format('YYYY-MM-DD')}</p>
             <p>Comments:{singleArticle.comment_count}</p>
             </section>
