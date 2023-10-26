@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import { getCommentsbyArticle, postComment } from "../utils/api"
-import { Link, useParams } from "react-router-dom"
+import { getCommentsbyArticle, postComment, deleteComment } from "../utils/api"
+import { useParams } from "react-router-dom"
 import moment from "moment";
+
 
 const Comments = () => {
 
@@ -22,11 +23,30 @@ const Comments = () => {
         })
     }, [article_id])
 
+    const handleDelete = (comment_id) => {
+        deleteComment(comment_id).then(() => {
+            setMessage('comment deleted')
+        }).then(()=> {
+            return getCommentsbyArticle(article_id)
+
+        }).then((body)=> {
+            setComments(() => {
+                return body
+            })
+
+
+        }).catch(()=> {
+            setMessage('comment not deleted, please try again!')
+        })
+
+    }
+
     const handleSubmit = (submitEvent) => {
         const newComment = {
             body: submitEvent.target[0].value,
             username: submitEvent.target[1].value
         }
+        
         submitEvent.preventDefault();
         setMessage(null)
 
@@ -52,11 +72,15 @@ const Comments = () => {
             setMessage('Comment not submitted')
 
         })
+
         setAuthorInput('')
         setBodyInput('')
+        
     
     
     } 
+
+
     
     return error ? <h2>Oh no...something's gone wrong</h2> : (
         <div className="comments">
@@ -82,6 +106,7 @@ const Comments = () => {
             <p>Votes: {votes}</p>
             <p>Date: {moment(created_at).utc().format('YYYY-MM-DD')}</p>
             <p>User: {author}</p>
+            <button onClick={()=> {handleDelete(comment_id)}} type="delete">Delete</button>
             </li>
 
             })}   
