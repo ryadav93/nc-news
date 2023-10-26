@@ -29,6 +29,16 @@ const Comments = () => {
         }
         submitEvent.preventDefault();
         setMessage(null)
+
+        if(bodyInput.length === 0){
+            return submitEvent.preventDefault();
+            
+          } else {
+            if (authorInput.length === 0) {
+            return submitEvent.preventDefault();
+            }
+          }
+            
         postComment(article_id, newComment).then((response)=> {
             setComments((currentComments)=> {
                 return [response, ...currentComments]
@@ -42,16 +52,26 @@ const Comments = () => {
             setMessage('Comment not submitted')
 
         })
+        setAuthorInput('')
+        setBodyInput('')
+    
+    
     } 
     
     return error ? <h2>Oh no...something's gone wrong</h2> : (
         <div className="comments">
          <h3>Leave a comment</h3>
             <form onSubmit={handleSubmit} method="post">
-            {message && <div>{message}</div>}
                 <input onChange={(e)=> setBodyInput(e.target.value)} value = {bodyInput} type={"text"} placeholder={"comment"}/>
                 <input onChange={(e)=> setAuthorInput(e.target.value)} value = {authorInput} type={"text"} placeholder={"username (required)"}/>
-                <button type="Submit">Click to Submit</button>
+                <button onClick={()=> {
+                    setBodyInput(e.target.value)
+                    setAuthorInput(e.target.value)
+                    setAuthorInput('')
+                    setBodyInput('')
+                }} type="Submit">Click to Submit</button>
+                {message && <div>{message}</div>}
+                {bodyInput.length === 0 ? <p> username or comment empty </p> : null}
             </form>
 
        
