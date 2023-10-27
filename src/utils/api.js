@@ -18,6 +18,14 @@ export const getArticlesById = (article_id) => {
     })
 }
 
+export const getUsers = () => {
+    return newsApi.get('/users').then((response)=> {
+        return response.data.users
+    }).catch((err)=> {
+       
+    })
+}
+
 export const patchVotes = (article_id, value) => {
     return newsApi.patch(`/articles/${article_id}`, { inc_votes: value }).then((response)=> {
         return response.data.article

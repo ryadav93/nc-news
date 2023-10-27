@@ -8,12 +8,16 @@ import Login from './components/Login'
 import Articles from './components/Articles'
 import ArticleById from './components/ArticleById'
 import './App.css'
+import { UserContext } from './contexts/Theme.jsx'
+
 
 
 function App() {
  
+  const [user, setUser] = useState([])
 
   return (
+   
     <div className='app'>
       <Header/>
       <Nav/>
@@ -24,9 +28,10 @@ function App() {
         <Route path = '/articles/:article_id/comments' element={<ArticleById/>}></Route>
         <Route path = '/comments/:comment_id' element={<ArticleById/>}></Route>
         <Route path='/topics' element={<Topics/>}></Route>
+        <Route path='/users' element={<Login/>}></Route>
       </Routes>
-
     </div>
+   
   )
 }
 
