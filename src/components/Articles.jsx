@@ -7,7 +7,7 @@ import moment from "moment";
 const Articles = () => {
     const [articles, setArticles] = useState([])
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(false)
+    const [error, setError] = useState(null)
     const [searchParams, setSearchParams] = useSearchParams()
     const topic = searchParams.get('topic')
     const [sort, setSort] = useState('');
@@ -147,15 +147,15 @@ useEffect(()=> {
     setLoading(true)
     getArticles(topic).then((fetchedArticles)=> {
         setLoading(false)
-        setError(false)
+        setError(null)
     setArticles(fetchedArticles)
-    }).catch(()=> {
-        setError(true)
+    }).catch((err)=> {
+        setError(err.response.data.msg)
     })
 }, [topic])
 
 
-return error ? <h2>Oh no...something's gone wrong</h2> 
+return error ? <h2>{error}</h2> 
     : loading ? (
         <h2>Loading...</h2> ) : (
             <div>

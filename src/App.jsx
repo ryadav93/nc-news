@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './components/Home'
 import Header from './components/Header'
@@ -14,7 +14,7 @@ import { UserContext } from './contexts/Theme.jsx'
 
 function App() {
  
-  const [user, setUser] = useState([])
+ const {user} = useContext(UserContext)
 
   return (
    
@@ -29,6 +29,7 @@ function App() {
         <Route path = '/comments/:comment_id' element={<ArticleById/>}></Route>
         <Route path='/topics' element={<Topics/>}></Route>
         <Route path='/users' element={<Login/>}></Route>
+        <Route path ='*' element={<p>Path Not Found</p>}></Route>
       </Routes>
     </div>
    
