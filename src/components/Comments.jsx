@@ -1,29 +1,35 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { getCommentsbyArticle, postComment, deleteComment } from "../utils/api"
 import { useParams } from "react-router-dom"
 import moment from "moment";
+import { UserContext } from "../contexts/Theme.jsx";
+
 
 
 const Comments = () => {
-
+    const {user} = useContext(UserContext);
     const { article_id } = useParams()
     const [comments, setComments] = useState([])
     const [bodyInput, setBodyInput] = useState('')
     const [authorInput, setAuthorInput] = useState('')
-    const [error, setError] = useState(false)
+    const [error, setError] = useState(null)
     const [message, setMessage] = useState(null)
-
+    
     useEffect(()=> {
         getCommentsbyArticle(article_id).then((comments)=> {
             setComments(comments)
-            setError(false)
-        }).catch(()=> {
-            setError(true)
-
+            setError(null)
+        }).catch((err)=> {
+            setError(err.response.data.msg)
         })
     }, [article_id])
 
-    const handleDelete = (comment_id) => {
+    const handleDelete = (comment_id, author) => {
+
+        if(user!==author){
+            setMessage('You cannot delete this comment')
+        } else {
+        
         deleteComment(comment_id).then(() => {
             setMessage('comment deleted')
         }).then(()=> {
@@ -38,6 +44,7 @@ const Comments = () => {
         }).catch(()=> {
             setMessage('comment not deleted, please try again!')
         })
+        }
 
     }
 
@@ -51,15 +58,21 @@ const Comments = () => {
         setMessage(null)
 
         if(bodyInput.length === 0){
+            setMessage('Comment field is empty')
             return submitEvent.preventDefault();
             
           } else {
             if (authorInput.length === 0) {
+            setMessage('Must include username')
             return submitEvent.preventDefault();
             }
           }
+          if(user!==newComment.username){
+            setMessage('You are not logged in as this user')
+        } else {
             
         postComment(article_id, newComment).then((response)=> {
+            
             setComments((currentComments)=> {
                 return [response, ...currentComments]
                 
@@ -76,13 +89,11 @@ const Comments = () => {
         setAuthorInput('')
         setBodyInput('')
         
-    
+        }
     
     } 
-
-
     
-    return error ? <h2>Oh no...something's gone wrong</h2> : (
+    return error ? <h2>{error}</h2> : (
         <div className="comments">
          <h3>Leave a comment</h3>
             <form onSubmit={handleSubmit} method="post">
@@ -95,7 +106,6 @@ const Comments = () => {
                     setBodyInput('')
                 }} type="Submit">Click to Submit</button>
                 {message && <div>{message}</div>}
-                {bodyInput.length === 0 ? <p> username or comment empty </p> : null}
             </form>
 
        
@@ -106,7 +116,7 @@ const Comments = () => {
             <p>Votes: {votes}</p>
             <p>Date: {moment(created_at).utc().format('YYYY-MM-DD')}</p>
             <p>User: {author}</p>
-            <button onClick={()=> {handleDelete(comment_id)}} type="delete">Delete</button>
+            <button onClick={()=> {handleDelete(comment_id, author)}} type="delete">Delete</button>
             </li>
 
             })}   

@@ -8,22 +8,22 @@ import moment from "moment";
 const ArticleById = () => {
     const { article_id } = useParams()
     const [singleArticle, setSingleArticle] = useState({})
-    const [allComments, setAllComments] = useState({})
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(false)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         setLoading(true)
         getArticlesById(article_id).then((article)=> {
             setLoading(false)
-            setError(false)
+            setError(null)
             setSingleArticle(article)
-        }).catch(()=> {
-            setError(true)
+        }).catch((err)=> {
+            console.log(err.response.data.msg)
+            setError(err.response.data.msg)
         })
     }, [article_id])
 
-    return error ? <h2>Oh no...something's gone wrong</h2> 
+    return error ? <h2>{error}</h2> 
     : loading ? (
         <h2>Loading...</h2> ) : (
         <div>
